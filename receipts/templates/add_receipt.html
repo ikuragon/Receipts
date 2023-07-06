@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <title>{% block title %}{% endblock %}</title>
+  <style>
+    .bodys {
+      background: url(https://www.meme-arsenal.com/memes/de3d050d0ecb214778ff2516c4caa490.jpg);
+      background-size: 100%;
+    }
+    .jumbotron {
+       padding: 10px;
+       margin-bottom: 0;
+    }
+  </style>
+</head>
+
+<body class="bodys">
+  <div class="container">
+    <div class="container mt-5 text-center">
+      <div class="jumbotron">
+        <h1 class="display-10">Добавление рецепта</h1>
+      </div>
+{% block content %}
+  <form action="{{ url_for('add_receipt') }}" method="POST">
+    {{ form.csrf_token }}
+    <div class="form-group">
+      <br>
+      {{ form.name_of_receipt(class="form-control form-control-sm", placeholder="Название рецепта") }}
+      {% for error in form.name_of_receipt.errors %}
+        <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <div class="form-group">
+      {{ form.about_of_receipt(class="form-control form-control-sm", placeholder="Информация о рецепте") }}
+      {% for error in form.about_of_receipt.errors %}
+        <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <div class="form-group">
+      {{ form.ingredients(class="form-control form-control-sm", placeholder="Ингредиенты") }}
+      {% for error in form.ingredients.errors %}
+        <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <div class="form-group">
+      {{ form.kilocalories(class="form-control form-control-sm", placeholder="Килокалории") }}
+      {% for error in form.kilocalories.errors %}
+        <span class="text-danger">{{ error }}</span>
+      {% endfor %}
+    </div>
+    <input type="submit" value="Добавить рецепт" class="btn btn-success">
+    <a href="/" class="btn btn-primary">Назад к списку</a>
+  </form>
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="alert alert-success bg-success text-white">
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+{% endblock %}
+    </div>
+  </div>
+</body>
+
+</html>
